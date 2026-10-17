@@ -1,0 +1,302 @@
+DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EstudaFácil — aprende ao teu ritmo com resumos, explicações e exercícios.">
+  <title>EstudaFácil | Aprende ao teu ritmo</title>
+  <style>
+    :root {
+      --green: #13834b;
+      --green-dark: #075c35;
+      --green-light: #e9f8ef;
+      --text: #173126;
+      --muted: #63756b;
+      --white: #ffffff;
+      --line: #e3eee7;
+      --shadow: 0 12px 32px rgba(9, 76, 43, .08);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: #fbfefc;
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1120px, calc(100% - 36px)); margin: 0 auto; }
+    header {
+      background: rgba(255,255,255,.94);
+      border-bottom: 1px solid var(--line);
+      position: sticky; top: 0; z-index: 10;
+      backdrop-filter: blur(10px);
+    }
+    .nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 850; font-size: 1.25rem; letter-spacing: -.5px; }
+    .logo {
+      display: grid; place-items: center; width: 42px; height: 42px; border-radius: 14px;
+      color: white; background: var(--green); font-size: 1.35rem; box-shadow: 0 6px 14px #13834b30;
+    }
+    .brand span span { color: var(--green); }
+    nav { display: flex; align-items: center; gap: 24px; color: var(--muted); font-size: .95rem; }
+    nav a:hover { color: var(--green); }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      border: 0; border-radius: 12px; padding: 12px 18px; font: inherit; font-weight: 750;
+      cursor: pointer; transition: transform .15s, background .15s;
+    }
+    .button:hover { transform: translateY(-1px); }
+    .button-primary { background: var(--green); color: white; }
+    .button-primary:hover { background: var(--green-dark); }
+    .button-soft { background: var(--green-light); color: var(--green-dark); }
+    .hero { padding: 68px 0 54px; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1.12fr .88fr; align-items: center; gap: 50px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; background: var(--green-light); color: var(--green-dark); border-radius: 999px; padding: 7px 12px; font-size: .86rem; font-weight: 750; }
+    h1 { font-size: clamp(2.35rem, 5vw, 4.25rem); line-height: 1.06; letter-spacing: -2px; margin: 20px 0; }
+    h1 em { color: var(--green); font-style: normal; }
+    .hero p { color: var(--muted); font-size: 1.1rem; max-width: 560px; margin: 0 0 25px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .hero-card {
+      background: linear-gradient(145deg, #e7f8ed, #f7fff9); border: 1px solid #d5efdf;
+      border-radius: 28px; padding: 24px; min-height: 330px; position: relative; box-shadow: var(--shadow);
+    }
+    .hero-card h3 { margin: 0 0 5px; font-size: 1.15rem; }
+    .hero-card .sub { color: var(--muted); margin: 0 0 18px; font-size: .92rem; }
+    .study-row { background: white; border: 1px solid var(--line); border-radius: 15px; padding: 13px; display: flex; gap: 12px; align-items: center; margin: 10px 0; }
+    .subject-icon { width: 43px; height: 43px; display: grid; place-items: center; border-radius: 12px; background: var(--green-light); font-size: 1.25rem; flex-shrink: 0; }
+    .study-row strong { display: block; font-size: .94rem; }
+    .study-row small { color: var(--muted); }
+    .progress { height: 6px; border-radius: 99px; background: #e7eee9; margin-top: 7px; overflow: hidden; }
+    .progress span { display: block; height: 100%; width: 68%; background: var(--green); border-radius: inherit; }
+    section { padding: 54px 0; }
+    .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 24px; }
+    .section-heading h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); letter-spacing: -.8px; margin: 0 0 7px; }
+    .section-heading p { margin: 0; color: var(--muted); }
+    .search-wrap { background: white; border: 1px solid var(--line); box-shadow: var(--shadow); border-radius: 18px; padding: 10px; display: flex; gap: 10px; margin: 26px 0 20px; }
+    .search-wrap input { border: 0; outline: 0; flex: 1; min-width: 0; padding: 10px 12px; font: inherit; font-size: 1rem; background: transparent; color: var(--text); }
+    .filters { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 24px; }
+    .filter { border: 1px solid var(--line); color: var(--muted); background: white; border-radius: 999px; padding: 8px 14px; cursor: pointer; font: inherit; font-size: .9rem; }
+    .filter.active, .filter:hover { background: var(--green-light); border-color: #b8e4c8; color: var(--green-dark); }
+    .subject-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .subject-card { background: white; border: 1px solid var(--line); border-radius: 18px; padding: 20px; transition: transform .18s, box-shadow .18s; }
+    .subject-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+    .subject-card .subject-icon { margin-bottom: 14px; width: 48px; height: 48px; }
+    .subject-card h3 { margin: 0 0 6px; font-size: 1.05rem; }
+    .subject-card p { color: var(--muted); font-size: .9rem; margin: 0 0 15px; min-height: 42px; }
+    .subject-card .more { color: var(--green); font-weight: 750; font-size: .9rem; }
+    .empty { display: none; padding: 24px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 16px; }
+    .features { background: #f1faf4; }
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .feature { background: white; border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
+    .feature .emoji { font-size: 1.7rem; }
+    .feature h3 { margin: 12px 0 6px; }
+    .feature p { margin: 0; color: var(--muted); }
+    .cta { background: var(--green-dark); color: white; border-radius: 24px; padding: 34px; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .cta h2 { margin: 0 0 8px; font-size: clamp(1.6rem, 3vw, 2.25rem); }
+    .cta p { margin: 0; color: #d1e9da; }
+    .cta .button { background: white; color: var(--green-dark); flex-shrink: 0; }
+    footer { padding: 28px 0; color: var(--muted); font-size: .9rem; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 22px; }
+    .notice { font-size: .83rem; color: var(--muted); margin-top: 12px; }
+    @media (max-width: 850px) {
+      nav { gap: 12px; } nav .nav-hide { display: none; }
+      .hero-grid { grid-template-columns: 1fr; gap: 30px; }
+      .hero { padding-top: 46px; }
+      .hero-card { max-width: 560px; }
+      .subject-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 540px) {
+      .container { width: min(100% - 26px, 1120px); }
+      .nav { min-height: 64px; }
+      nav { display: none; }
+      .brand { font-size: 1.12rem; }
+      .logo { width: 38px; height: 38px; }
+      .hero { padding: 38px 0 28px; }
+      h1 { letter-spacing: -1.2px; }
+      .hero p { font-size: 1rem; }
+      .hero-card { padding: 17px; min-height: 0; }
+      section { padding: 38px 0; }
+      .section-heading { display: block; }
+      .section-heading .button { margin-top: 14px; }
+      .search-wrap { flex-wrap: wrap; }
+      .search-wrap .button { width: 100%; }
+      .subject-grid, .feature-grid { grid-template-columns: 1fr; }
+      .subject-card p { min-height: 0; }
+      .cta { padding: 24px; align-items: flex-start; flex-direction: column; }
+      .cta .button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#inicio" aria-label="EstudaFácil início">
+        <span class="logo">📘</span><span>Estuda<span>Fácil</span></span>
+      </a>
+      <nav aria-label="Navegação principal">
+        <a href="#disciplinas">Disciplinas</a>
+        <a href="#como-funciona" class="nav-hide">Como funciona</a>
+        <a href="#sobre" class="nav-hide">Sobre</a>
+      </nav>
+      <a class="button button-primary" href="#disciplinas">Começar a estudar</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">🇦🇴 Feito para aprender, passo a passo</span>
+          <h1>Aprender ficou <em>mais fácil.</em></h1>
+          <p>Encontra disciplinas, prepara-te para os testes e aprende ao teu ritmo com explicações claras, resumos e exercícios.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#disciplinas">📚 Explorar disciplinas</a>
+            <a class="button button-soft" href="#como-funciona">Como funciona?</a>
+          </div>
+          <p class="notice">Primeira versão demonstrativa. Os conteúdos educativos serão adicionados progressivamente.</p>
+        </div>
+        <div class="hero-card" aria-label="Exemplo de painel de estudo">
+          <h3>O teu espaço de estudo</h3>
+          <p class="sub">Um passo de cada vez. Tu consegues! 💪</p>
+          <div class="study-row">
+            <div class="subject-icon">➗</div><div style="flex:1"><strong>Matemática</strong><small>Exercícios e explicações</small><div class="progress"><span style="width:68%"></span></div></div>
+          </div>
+          <div class="study-row">
+            <div class="subject-icon">💻</div><div style="flex:1"><strong>Informática</strong><small>Conceitos e prática</small><div class="progress"><span style="width:45%"></span></div></div>
+          </div>
+          <div class="study-row">
+            <div class="subject-icon">📊</div><div style="flex:1"><strong>Contabilidade</strong><small>Aprende desde o início</small><div class="progress"><span style="width:32%"></span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="disciplinas">
+      <div class="container">
+        <div class="section-heading">
+          <div><h2>O que queres estudar?</h2><p>Pesquisa uma disciplina ou escolhe uma categoria.</p></div>
+        </div>
+        <div class="search-wrap">
+          <input id="searchInput" type="search" placeholder="Ex.: Matemática, Contabilidade, Física..." aria-label="Pesquisar disciplinas">
+          <button class="button button-primary" id="searchButton" type="button">🔎 Pesquisar</button>
+        </div>
+        <div class="filters" aria-label="Filtrar por área">
+          <button class="filter active" data-filter="Todas">Todas</button>
+          <button class="filter" data-filter="Ciências">Ciências</button>
+          <button class="filter" data-filter="Tecnologia">Tecnologia</button>
+          <button class="filter" data-filter="Gestão">Gestão</button>
+          <button class="filter" data-filter="Humanidades">Humanidades</button>
+        </div>
+        <div class="subject-grid" id="subjectGrid">
+          <article class="subject-card" data-category="Ciências" data-name="Matemática">
+            <div class="subject-icon">➗</div><h3>Matemática</h3><p>Números, equações, funções e muito mais.</p><a class="more" href="#contacto" data-subject="Matemática">Explorar disciplina →</a>
+          </article>
+          <article class="subject-card" data-category="Ciências" data-name="Física">
+            <div class="subject-icon">⚛️</div><h3>Física</h3><p>Compreende as leis que explicam o mundo.</p><a class="more" href="#contacto" data-subject="Física">Explorar disciplina →</a>
+          </article>
+          <article class="subject-card" data-category="Ciências" data-name="Química">
+            <div class="subject-icon">🧪</div><h3>Química</h3><p>Elementos, reações e tabela periódica.</p><a class="more" href="#contacto" data-subject="Química">Explorar disciplina →</a>
+          </article>
+          <article class="subject-card" data-category="Humanidades" data-name="Língua Portuguesa">
+            <div class="subject-icon">📖</div><h3>Língua Portuguesa</h3><p>Gramática, interpretação e escrita.</p><a class="more" href="#contacto" data-subject="Língua Portuguesa">Explorar disciplina →</a>
+          </article>
+          <article class="subject-card" data-category="Tecnologia" data-name="Informática Aplicada">
+            <div class="subject-icon">💻</div><h3>Informática Aplicada</h3><p>Ferramentas digitais e competências práticas.</p><a class="more" href="#contacto" data-subject="Informática Aplicada">Explorar disciplina →</a>
+          </article>
+          <article class="subject-card" data-category="Tecnologia" data-name="Programação">
+            <div class="subject-icon">⌨️</div><h3>Programação</h3><p>Aprende lógica e cria os teus primeiros projetos.</p><a class="more" href="#contacto" data-subject="Programação">Explorar disciplina →</a>
+          </article>
+          <article class="subject-card" data-category="Gestão" data-name="Contabilidade Geral">
+            <div class="subject-icon">🧾</div><h3>Contabilidade Geral</h3><p>Registos, contas e demonstrações financeiras.</p><a class="more" href="#contacto" data-subject="Contabilidade Geral">Explorar disciplina →</a>
+          </article>
+          <article class="subject-card" data-category="Gestão" data-name="Contabilidade Analítica">
+            <div class="subject-icon">📈</div><h3>Contabilidade Analítica</h3><p>Custos, resultados e apoio à decisão.</p><a class="more" href="#contacto" data-subject="Contabilidade Analítica">Explorar disciplina →</a>
+          </article>
+          <article class="subject-card" data-category="Gestão" data-name="Empreendedorismo">
+            <div class="subject-icon">💡</div><h3>Empreendedorismo</h3><p>Transforma ideias em projetos bem pensados.</p><a class="more" href="#contacto" data-subject="Empreendedorismo">Explorar disciplina →</a>
+          </article>
+          <article class="subject-card" data-category="Ciências" data-name="Estatística">
+            <div class="subject-icon">📊</div><h3>Estatística</h3><p>Dados, tabelas, gráficos e médias.</p><a class="more" href="#contacto" data-subject="Estatística">Explorar disciplina →</a>
+          </article>
+          <article class="subject-card" data-category="Humanidades" data-name="História">
+            <div class="subject-icon">🌍</div><h3>História</h3><p>Estuda acontecimentos e sociedades do passado.</p><a class="more" href="#contacto" data-subject="História">Explorar disciplina →</a>
+          </article>
+          <article class="subject-card" data-category="Humanidades" data-name="Geografia">
+            <div class="subject-icon">🗺️</div><h3>Geografia</h3><p>Regiões, população, economia e ambiente.</p><a class="more" href="#contacto" data-subject="Geografia">Explorar disciplina →</a>
+          </article>
+        </div>
+        <div class="empty" id="emptyMessage">Não encontrámos essa disciplina. Experimenta outra palavra.</div>
+      </div>
+    </section>
+
+    <section class="features" id="como-funciona">
+      <div class="container">
+        <div class="section-heading"><div><h2>Aprende do teu jeito</h2><p>O EstudaFácil foi pensado para tornar o estudo mais simples.</p></div></div>
+        <div class="feature-grid">
+          <div class="feature"><div class="emoji">📝</div><h3>Resumos claros</h3><p>Conteúdos organizados para rever os pontos mais importantes de cada tema.</p></div>
+          <div class="feature"><div class="emoji">✍️</div><h3>Exercícios práticos</h3><p>Pratica o que aprendeste e prepara-te melhor para os testes.</p></div>
+          <div class="feature"><div class="emoji">🎯</div><h3>Várias áreas</h3><p>Encontra matérias escolares, técnicas e profissionais num só lugar.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sobre">
+      <div class="container">
+        <div class="cta" id="contacto">
+          <div><h2>O teu próximo passo começa aqui.</h2><p>Escolhe uma disciplina e começa a construir o teu conhecimento.</p></div>
+          <a class="button" href="#disciplinas">Encontrar uma disciplina →</a>
+        </div>
+        <p class="notice">Nota: esta é uma primeira versão visual e interativa. A pesquisa e os filtros funcionam no navegador, mas ainda não existem contas de utilizador, vídeos incorporados nem uma base de dados de aulas.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span><strong>EstudaFácil</strong> · Aprende ao teu ritmo 🇦🇴</span>
+      <span>© <span id="year"></span> EstudaFácil. Projeto em desenvolvimento.</span>
+    </div>
+  </footer>
+  <script>
+    const input = document.getElementById('searchInput');
+    const cards = [...document.querySelectorAll('.subject-card')];
+    const filters = [...document.querySelectorAll('.filter')];
+    const empty = document.getElementById('emptyMessage');
+    let activeFilter = 'Todas';
+
+    function updateSubjects() {
+      const term = input.value.trim().toLocaleLowerCase('pt');
+      let visible = 0;
+      cards.forEach(card => {
+        const matchesTerm = card.dataset.name.toLocaleLowerCase('pt').includes(term) ||
+          card.innerText.toLocaleLowerCase('pt').includes(term);
+        const matchesFilter = activeFilter === 'Todas' || card.dataset.category === activeFilter;
+        const show = matchesTerm && matchesFilter;
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      empty.style.display = visible ? 'none' : 'block';
+    }
+    input.addEventListener('input', updateSubjects);
+    document.getElementById('searchButton').addEventListener('click', updateSubjects);
+    filters.forEach(button => button.addEventListener('click', () => {
+      activeFilter = button.dataset.filter;
+      filters.forEach(item => item.classList.toggle('active', item === button));
+      updateSubjects();
+    }));
+    document.querySelectorAll('[data-subject]').forEach(link => link.addEventListener('click', event => {
+      event.preventDefault();
+      const subject = link.dataset.subject;
+      input.value = subject;
+      activeFilter = 'Todas';
+      filters.forEach(item => item.classList.toggle('active', item.dataset.filter === 'Todas'));
+      updateSubjects();
+      document.getElementById('disciplinas').scrollIntoView({ behavior: 'smooth' });
+      input.focus({ preventScroll: true });
+    }));
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
