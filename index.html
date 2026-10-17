@@ -299,4 +299,535 @@ DOCTYPE html>
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
-</html>
+</html><!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EstudaFácil — Aprende ao teu ritmo</title>
+
+<meta name="description"
+content="EstudaFácil: plataforma educativa para estudantes angolanos. Aulas, exercícios e testes.">
+
+<style>
+:root {
+  --verde: #087f5b;
+  --verde-escuro: #065f46;
+  --fundo: #f4f8f6;
+  --branco: #ffffff;
+  --texto: #24332d;
+  --cinza: #64748b;
+  --borda: #dce8e1;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--fundo);
+  color: var(--texto);
+  line-height: 1.6;
+}
+
+header {
+  background: var(--branco);
+  padding: 15px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--borda);
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: bold;
+  color: var(--verde);
+}
+
+nav {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: var(--texto);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: var(--verde);
+}
+
+.hero {
+  background: linear-gradient(135deg, #087f5b, #10b981);
+  color: white;
+  padding: 50px 6%;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(28px, 5vw, 44px);
+  margin: 0 0 12px;
+}
+
+.hero p {
+  max-width: 650px;
+  margin: 0 auto 20px;
+}
+
+.pesquisa {
+  display: flex;
+  max-width: 600px;
+  margin: 25px auto 0;
+  gap: 8px;
+}
+
+input, select, button {
+  font: inherit;
+}
+
+.pesquisa input {
+  flex: 1;
+  min-width: 0;
+  padding: 13px;
+  border: none;
+  border-radius: 8px;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-weight: bold;
+}
+
+.botao-principal {
+  background: #facc15;
+  color: #24332d;
+}
+
+.botao-verde {
+  background: var(--verde);
+  color: white;
+}
+
+.botao-verde:hover {
+  background: var(--verde-escuro);
+}
+
+.container {
+  width: 92%;
+  max-width: 1150px;
+  margin: 35px auto;
+}
+
+.titulo-seccao {
+  margin-bottom: 5px;
+  font-size: 26px;
+}
+
+.subtitulo {
+  color: var(--cinza);
+  margin-top: 0;
+}
+
+.filtros {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
+.filtros select {
+  flex: 1;
+  min-width: 180px;
+  padding: 12px;
+  background: white;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+}
+
+.grelha {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.cartao {
+  background: white;
+  padding: 22px;
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+  box-shadow: 0 4px 12px #00000008;
+}
+
+.cartao h3 {
+  margin-top: 8px;
+}
+
+.icone {
+  font-size: 35px;
+}
+
+.etiqueta {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.cartao button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.painel {
+  background: white;
+  padding: 24px;
+  border-radius: 14px;
+  border: 1px solid var(--borda);
+  margin-top: 25px;
+}
+
+.painel h2 {
+  color: var(--verde);
+}
+
+.topico {
+  padding: 15px 0;
+  border-bottom: 1px solid var(--borda);
+}
+
+.topico:last-child {
+  border-bottom: none;
+}
+
+.exemplo {
+  background: #ecfdf5;
+  border-left: 4px solid var(--verde);
+  padding: 12px;
+  border-radius: 6px;
+  margin: 12px 0;
+}
+
+.opcao {
+  display: block;
+  background: #f8fafc;
+  border: 1px solid var(--borda);
+  padding: 12px;
+  margin: 9px 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.opcao:hover {
+  background: #ecfdf5;
+}
+
+.opcao input {
+  margin-right: 8px;
+}
+
+.resultado {
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 8px;
+  background: #f1f5f9;
+}
+
+.progresso-fundo {
+  height: 12px;
+  background: #e2e8f0;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progresso-barra {
+  height: 100%;
+  width: 0%;
+  background: var(--verde);
+  transition: width .3s;
+}
+
+.oculto {
+  display: none !important;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  background: #063f30;
+  color: white;
+  margin-top: 50px;
+}
+
+@media (max-width: 600px) {
+  header {
+    justify-content: center;
+  }
+
+  nav {
+    justify-content: center;
+  }
+
+  .hero {
+    padding: 35px 5%;
+  }
+
+  .pesquisa {
+    flex-direction: column;
+  }
+
+  .container {
+    width: 94%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">📚 EstudaFácil</div>
+
+  <nav>
+    <a href="#inicio">Início</a>
+    <a href="#disciplinas">Disciplinas</a>
+    <a href="#progresso">Meu progresso</a>
+  </nav>
+</header>
+
+<section class="hero" id="inicio">
+  <h1>Aprende hoje. Conquista amanhã!</h1>
+
+  <p>
+    Estuda, pratica e melhora os teus resultados.
+    Encontra matérias organizadas por classe e disciplina.
+  </p>
+
+  <div class="pesquisa">
+    <input
+      type="search"
+      id="pesquisa"
+      placeholder="Pesquisar Matemática, Português..."
+      aria-label="Pesquisar disciplinas">
+
+    <button class="botao-principal"
+      onclick="pesquisarDisciplinas()">
+      Pesquisar
+    </button>
+  </div>
+</section>
+
+<main class="container">
+
+<section id="disciplinas">
+  <h2 class="titulo-seccao">📖 Escolhe a tua disciplina</h2>
+
+  <p class="subtitulo">
+    Seleciona o nível, a classe e a matéria que desejas estudar.
+  </p>
+
+  <div class="filtros">
+    <select id="nivel" onchange="mostrarDisciplinas()">
+      <option value="">Todos os níveis</option>
+      <option value="Primário">Ensino primário</option>
+      <option value="I Ciclo">I ciclo</option>
+      <option value="II Ciclo">II ciclo</option>
+    </select>
+
+    <select id="classe" onchange="mostrarDisciplinas()">
+      <option value="">Todas as classes</option>
+      <option value="1.ª">1.ª classe</option>
+      <option value="2.ª">2.ª classe</option>
+      <option value="3.ª">3.ª classe</option>
+      <option value="4.ª">4.ª classe</option>
+      <option value="5.ª">5.ª classe</option>
+      <option value="6.ª">6.ª classe</option>
+      <option value="7.ª">7.ª classe</option>
+      <option value="8.ª">8.ª classe</option>
+      <option value="9.ª">9.ª classe</option>
+      <option value="10.ª">10.ª classe</option>
+      <option value="11.ª">11.ª classe</option>
+      <option value="12.ª">12.ª classe</option>
+      <option value="13.ª">13.ª classe</option>
+    </select>
+  </div>
+
+  <div id="listaDisciplinas" class="grelha"></div>
+
+  <p id="semResultados" class="oculto">
+    Não encontrámos disciplinas com esses filtros.
+    Experimenta outra pesquisa.
+  </p>
+</section>
+
+<section id="areaEstudo" class="painel oculto">
+  <button class="botao-verde" onclick="voltarDisciplinas()">
+    ← Voltar às disciplinas
+  </button>
+
+  <div id="conteudoAula"></div>
+</section>
+
+<section id="progresso" class="painel">
+  <h2>🏆 O meu progresso</h2>
+
+  <p>Respostas corretas: <strong id="totalCorretas">0</strong></p>
+
+  <p>Exercícios respondidos: <strong id="totalRespondidos">0</strong></p>
+
+  <p>Percentagem de acertos: <strong id="percentagem">0%</strong></p>
+
+  <div class="progresso-fundo">
+    <div id="barraProgresso" class="progresso-barra"></div>
+  </div>
+
+  <p class="subtitulo">
+    O teu progresso fica guardado neste navegador.
+  </p>
+</section>
+
+</main>
+
+<footer>
+  <p><strong>EstudaFácil</strong> — O conhecimento abre caminhos. 🇦🇴</p>
+  <p>Aprender é crescer, um dia de cada vez.</p>
+</footer>
+
+<script>
+const disciplinas = [
+  {
+    nome: "Matemática",
+    icone: "🔢",
+    nivel: "Primário",
+    classes: ["1.ª","2.ª","3.ª","4.ª","5.ª","6.ª"],
+    descricao: "Números, operações e resolução de problemas.",
+    aulas: [
+      {
+        titulo: "As quatro operações",
+        explicacao: "As quatro operações fundamentais são adição, subtração, multiplicação e divisão.",
+        exemplo: "Exemplo: 12 + 8 = 20. Na subtração: 12 - 8 = 4.",
+        pergunta: "Quanto é 15 + 7?",
+        opcoes: ["20", "21", "22", "23"],
+        correta: 2,
+        explicacaoResposta: "15 + 7 = 22."
+      },
+      {
+        titulo: "Multiplicação",
+        explicacao: "Multiplicar é somar repetidamente a mesma quantidade.",
+        exemplo: "3 × 4 = 4 + 4 + 4 = 12.",
+        pergunta: "Quanto é 6 × 7?",
+        opcoes: ["36", "40", "42", "48"],
+        correta: 2,
+        explicacaoResposta: "6 × 7 = 42."
+      },
+      {
+        titulo: "Frações",
+        explicacao: "Uma fração representa uma ou mais partes de um todo dividido em partes iguais.",
+        exemplo: "1/2 representa uma de duas partes iguais.",
+        pergunta: "Qual fração representa metade?",
+        opcoes: ["1/3", "1/2", "2/3", "3/4"],
+        correta: 1,
+        explicacaoResposta: "1/2 significa uma parte de um total de duas partes iguais."
+      }
+    ]
+  },
+
+  {
+    nome: "Português",
+    icone: "📖",
+    nivel: "Primário",
+    classes: ["1.ª","2.ª","3.ª","4.ª","5.ª","6.ª"],
+    descricao: "Leitura, escrita e gramática.",
+    aulas: [
+      {
+        titulo: "Substantivos",
+        explicacao: "Substantivo é a palavra que nomeia pessoas, animais, objetos, lugares e sentimentos.",
+        exemplo: "Exemplos: aluno, cão, livro, Angola e alegria.",
+        pergunta: "Qual destas palavras é um substantivo?",
+        opcoes: ["Correr", "Bonito", "Escola", "Rapidamente"],
+        correta: 2,
+        explicacaoResposta: "Escola é um substantivo porque nomeia um lugar."
+      },
+      {
+        titulo: "Verbos",
+        explicacao: "O verbo exprime uma ação, um estado ou um acontecimento.",
+        exemplo: "Estudar, correr, ser e chover são verbos.",
+        pergunta: "Qual é o verbo da frase: 'A Maria estuda'?",
+        opcoes: ["A", "Maria", "Estuda", "Frase"],
+        correta: 2,
+        explicacaoResposta: "Estuda é o verbo e indica a ação realizada por Maria."
+      }
+    ]
+  },
+
+  {
+    nome: "Biologia",
+    icone: "🌿",
+    nivel: "I Ciclo",
+    classes: ["7.ª","8.ª","9.ª"],
+    descricao: "Seres vivos, ambiente e corpo humano.",
+    aulas: [
+      {
+        titulo: "Características dos seres vivos",
+        explicacao: "Os seres vivos apresentam características como organização celular, metabolismo, crescimento e reprodução.",
+        exemplo: "As plantas crescem, utilizam energia e podem reproduzir-se.",
+        pergunta: "Qual destes é um ser vivo?",
+        opcoes: ["Pedra", "Árvore", "Cadeira", "Vidro"],
+        correta: 1,
+        explicacaoResposta: "A árvore é um ser vivo: cresce, realiza funções vitais e pode reproduzir-se."
+      },
+      {
+        titulo: "Fotossíntese",
+        explicacao: "A fotossíntese é o processo pelo qual plantas, algas e alguns organismos utilizam energia luminosa para produzir matéria orgânica.",
+        exemplo: "Nas plantas, a fotossíntese utiliza água e dióxido de carbono e liberta oxigénio.",
+        pergunta: "Qual é uma fonte de energia para a fotossíntese?",
+        opcoes: ["Luz", "Areia", "Plástico", "Ferro"],
+        correta: 0,
+        explicacaoResposta: "A energia luminosa permite que a fotossíntese aconteça."
+      }
+    ]
+  },
+
+  {
+    nome: "Física",
+    icone: "⚡",
+    nivel: "I Ciclo",
+    classes: ["7.ª","8.ª","9.ª"],
+    descricao: "Movimento, energia e fenómenos físicos.",
+    aulas: [
+      {
+        titulo: "Velocidade média",
+        explicacao: "A velocidade média é calculada dividindo a distância percorrida pelo tempo gasto.",
+        exemplo: "Se percorres 100 metros em 20 segundos, a velocidade média é 100 ÷ 20 = 5 m/s.",
+        pergunta: "Um carro percorre 120 km em 2 horas. Qual é a velocidade média?",
+        opcoes: ["40 km/h", "50 km/h", "60 km/h", "80 km/h"],
+        correta: 2,
+        explicacaoResposta: "Velocidade média = 120 ÷ 2 = 60 km/h."
+      }
+    ]
+  },
+
+  {
+    nome: "Química",
+    icone: "🧪",
+    nivel: "I Ciclo",
+    classes: ["8.ª","9.ª"],
+    descricao: "Matéria, elementos e transformações.",
+    aulas: [
+      {
+        titulo: "Estados físicos da matéria",
+        explic
