@@ -1,2 +1,2 @@
-https://github.com/Albertocatumbela12/StudarFacil/blob/main/Index.html# StudarFacil
+index.html# StudarFacil
 Plantaforma educativa para estudantes angolanos 
