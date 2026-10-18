@@ -830,4 +830,702 @@ const disciplinas = [
     aulas: [
       {
         titulo: "Estados físicos da matéria",
-        explic</script>
+        explic</script><!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EstudaFácil | Aprende ao teu ritmo</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f7fb;
+  color: #193047;
+}
+
+header {
+  background: linear-gradient(135deg, #087f5b, #12b886);
+  color: white;
+  padding: 28px 16px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+header p {
+  margin-bottom: 0;
+}
+
+main {
+  max-width: 950px;
+  margin: auto;
+  padding: 20px 14px;
+}
+
+.search {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #ccd8e2;
+  border-radius: 12px;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: #087f5b;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 14px;
+}
+
+.card {
+  border: none;
+  border-radius: 15px;
+  padding: 22px 10px;
+  background: white;
+  box-shadow: 0 3px 12px #17324d12;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  color: #193047;
+  transition: transform .2s, background .2s;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  background: #e6fcf5;
+}
+
+.icon {
+  display: block;
+  font-size: 35px;
+  margin-bottom: 10px;
+}
+
+.panel {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 3px 12px #17324d12;
+  margin-top: 20px;
+}
+
+.hidden {
+  display: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+.back, .action {
+  border: none;
+  border-radius: 9px;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 15px;
+  margin: 5px 4px 5px 0;
+}
+
+.back {
+  background: #e9ecef;
+  color: #193047;
+}
+
+.action {
+  background: #087f5b;
+  color: white;
+}
+
+.lesson {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: #f3f7fb;
+  border: 1px solid #e0e8ef;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 10px 0;
+  cursor: pointer;
+  font-size: 16px;
+  color: #193047;
+}
+
+.lesson:hover {
+  background: #e6fcf5;
+}
+
+.content {
+  line-height: 1.7;
+  white-space: normal;
+}
+
+.question {
+  background: #f3f7fb;
+  padding: 15px;
+  border-radius: 10px;
+  margin: 15px 0;
+}
+
+label {
+  display: block;
+  margin: 12px 0;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #627587;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>📚 EstudaFácil</h1>
+  <p>Aprende, pratica e constrói o teu futuro!</p>
+</header>
+
+<main>
+
+  <section id="home">
+    <h2>O que queres estudar hoje?</h2>
+    <p>Escolhe uma matéria para abrir as lições e os exercícios.</p>
+
+    <input
+      id="search"
+      class="search"
+      type="search"
+      placeholder="🔎 Procurar uma matéria..."
+      oninput="filterSubjects()"
+    >
+
+    <div class="grid" id="subjectGrid"></div>
+  </section>
+
+  <section id="subjectPage" class="panel hidden">
+    <button class="back" onclick="goHome()">← Voltar às matérias</button>
+    <h2 id="subjectTitle"></h2>
+    <p id="subjectIntro"></p>
+    <div id="lessonList"></div>
+    <h3>🌍 Aprende também na internet</h3>
+    <div id="resources"></div>
+  </section>
+
+  <section id="lessonPage" class="panel hidden">
+    <button class="back" onclick="backToSubject()">← Voltar à matéria</button>
+    <h2 id="lessonTitle"></h2>
+    <div id="lessonContent" class="content"></div>
+    <button class="action" onclick="showQuiz()">✍️ Fazer exercício</button>
+  </section>
+
+  <section id="quizPage" class="panel hidden">
+    <button class="back" onclick="backToLesson()">← Voltar à lição</button>
+    <h2>📝 Testa os teus conhecimentos</h2>
+    <div id="quizContent"></div>
+    <button class="action" onclick="checkQuiz()">Corrigir respostas</button>
+    <p id="quizResult"></p>
+  </section>
+
+</main>
+
+<footer>
+  EstudaFácil © 2026 · O teu conhecimento é o teu futuro 💚
+</footer>
+
+<script>
+const subjects = {
+  matematica: {
+    name: "Matemática",
+    icon: "📐",
+    intro: "Aprende números, cálculos, equações e geometria.",
+    resources: [
+      ["Khan Academy", "https://pt.khanacademy.org/math"],
+      ["Matemática — exercícios", "https://www.w3schools.com"]
+    ],
+    lessons: [
+      {
+        title: "1. As quatro operações",
+        content: `
+          <h3>Adição, subtração, multiplicação e divisão</h3>
+          <p><b>Adição (+):</b> junta quantidades. Exemplo: 5 + 3 = 8.</p>
+          <p><b>Subtração (−):</b> retira uma quantidade. Exemplo: 9 − 4 = 5.</p>
+          <p><b>Multiplicação (×):</b> soma repetida. Exemplo: 4 × 3 = 12.</p>
+          <p><b>Divisão (÷):</b> reparte em partes iguais. Exemplo: 12 ÷ 3 = 4.</p>
+        `,
+        questions: [
+          {
+            q: "Quanto é 7 + 5?",
+            options: ["10", "12", "13"],
+            answer: 1
+          },
+          {
+            q: "Quanto é 6 × 4?",
+            options: ["20", "24", "28"],
+            answer: 1
+          }
+        ]
+      },
+      {
+        title: "2. Frações",
+        content: `
+          <h3>O que é uma fração?</h3>
+          <p>Uma fração representa uma ou mais partes de um todo dividido em partes iguais.</p>
+          <p>Exemplo: 1/2 significa uma parte de um todo dividido em duas partes iguais.</p>
+          <p>Em 3/4, o 3 é o numerador e o 4 é o denominador.</p>
+        `,
+        questions: [
+          {
+            q: "Em 2/5, qual é o denominador?",
+            options: ["2", "5", "7"],
+            answer: 1
+          },
+          {
+            q: "Quanto é metade de 10?",
+            options: ["2", "5", "10"],
+            answer: 1
+          }
+        ]
+      },
+      {
+        title: "3. Equações simples",
+        content: `
+          <h3>Como resolver uma equação?</h3>
+          <p>Uma equação é uma igualdade que contém um valor desconhecido.</p>
+          <p>Exemplo: x + 3 = 8.</p>
+          <p>Subtraímos 3 dos dois lados: x = 8 − 3.</p>
+          <p><b>Resposta: x = 5.</b></p>
+        `,
+        questions: [
+          {
+            q: "Se x + 4 = 9, quanto vale x?",
+            options: ["4", "5", "13"],
+            answer: 1
+          }
+        ]
+      }
+    ]
+  },
+
+  fisica: {
+    name: "Física",
+    icon: "⚛️",
+    intro: "Estuda o movimento, a força, a energia e a eletricidade.",
+    resources: [
+      ["PhET — simulações de Física", "https://phet.colorado.edu/pt/"],
+      ["Khan Academy — Física", "https://pt.khanacademy.org/science/physics"]
+    ],
+    lessons: [
+      {
+        title: "1. Movimento e velocidade",
+        content: `
+          <h3>O que é velocidade?</h3>
+          <p>A velocidade média relaciona a distância percorrida com o tempo gasto.</p>
+          <p><b>Fórmula:</b> v = d ÷ t</p>
+          <p>v é a velocidade, d é a distância e t é o tempo.</p>
+          <p>Exemplo: 100 metros em 20 segundos.</p>
+          <p>v = 100 ÷ 20 = <b>5 m/s</b>.</p>
+        `,
+        questions: [
+          {
+            q: "Um objeto percorre 60 m em 10 s. Qual é a velocidade média?",
+            options: ["6 m/s", "10 m/s", "600 m/s"],
+            answer: 0
+          }
+        ]
+      },
+      {
+        title: "2. Força",
+        content: `
+          <h3>O que é uma força?</h3>
+          <p>Uma força pode alterar o movimento ou deformar um objeto.</p>
+          <p>A unidade de força no Sistema Internacional é o newton (N).</p>
+          <p>Segunda lei de Newton: F = m × a.</p>
+          <p>Se a massa é 2 kg e a aceleração é 3 m/s², então F = 6 N.</p>
+        `,
+        questions: [
+          {
+            q: "Qual é a unidade de força?",
+            options: ["Metro", "Newton", "Segundo"],
+            answer: 1
+          }
+        ]
+      }
+    ]
+  },
+
+  quimica: {
+    name: "Química",
+    icon: "🧪",
+    intro: "Descobre os átomos, os elementos e as reações químicas.",
+    resources: [
+      ["Khan Academy — Química", "https://pt.khanacademy.org/science/chemistry"],
+      ["Tabela periódica", "https://ptable.com/?lang=pt"]
+    ],
+    lessons: [
+      {
+        title: "1. O átomo",
+        content: `
+          <h3>Como é constituído um átomo?</h3>
+          <p>O átomo é constituído por um núcleo e uma região onde se encontram os eletrões.</p>
+          <p><b>Protões:</b> possuem carga positiva.</p>
+          <p><b>Neutrões:</b> não possuem carga elétrica.</p>
+          <p><b>Eletrões:</b> possuem carga negativa.</p>
+          <p>O número de protões identifica o elemento químico.</p>
+        `,
+        questions: [
+          {
+            q: "Qual partícula tem carga negativa?",
+            options: ["Protão", "Neutrão", "Eletrão"],
+            answer: 2
+          }
+        ]
+      },
+      {
+        title: "2. Elementos químicos",
+        content: `
+          <h3>O que é um elemento químico?</h3>
+          <p>É uma substância constituída por átomos com o mesmo número de protões.</p>
+          <p>H é o símbolo do hidrogénio.</p>
+          <p>O é o símbolo do oxigénio.</p>
+          <p>Fe é o símbolo do ferro.</p>
+          <p>Os elementos estão organizados na tabela periódica.</p>
+        `,
+        questions: [
+          {
+            q: "Qual é o símbolo químico do oxigénio?",
+            options: ["Ox", "O", "Og"],
+            answer: 1
+          }
+        ]
+      }
+    ]
+  },
+
+  portugues: {
+    name: "Português",
+    icon: "📖",
+    intro: "Melhora a gramática, a leitura e a escrita.",
+    resources: [
+      ["Ciberdúvidas da Língua Portuguesa", "https://ciberduvidas.iscte-iul.pt/"],
+      ["Infopédia", "https://www.infopedia.pt/"]
+    ],
+    lessons: [
+      {
+        title: "1. Classes de palavras",
+        content: `
+          <h3>Principais classes de palavras</h3>
+          <p><b>Nome:</b> designa pessoas, animais, lugares ou coisas. Ex.: aluno.</p>
+          <p><b>Verbo:</b> indica ação, estado ou acontecimento. Ex.: estudar.</p>
+          <p><b>Adjetivo:</b> caracteriza um nome. Ex.: inteligente.</p>
+          <p><b>Advérbio:</b> pode indicar modo, tempo ou lugar. Ex.: rapidamente.</p>
+        `,
+        questions: [
+          {
+            q: "Na frase 'O aluno estuda', qual é o verbo?",
+            options: ["O", "aluno", "estuda"],
+            answer: 2
+          }
+        ]
+      },
+      {
+        title: "2. Sujeito e predicado",
+        content: `
+          <h3>Como identificar?</h3>
+          <p>O sujeito é sobre quem ou sobre o que se declara algo.</p>
+          <p>O predicado é aquilo que se declara sobre o sujeito.</p>
+          <p>Exemplo: 'A Maria estuda Matemática.'</p>
+          <p>Sujeito: A Maria.</p>
+          <p>Predicado: estuda Matemática.</p>
+        `,
+        questions: [
+          {
+            q: "Na frase 'O professor explica', qual é o sujeito?",
+            options: ["O professor", "explica", "O"],
+            answer: 0
+          }
+        ]
+      }
+    ]
+  },
+
+  informatica: {
+    name: "Informática",
+    icon: "💻",
+    intro: "Aprende a utilizar computadores, internet e programação.",
+    resources: [
+      ["Escola Virtual de Programação", "https://www.w3schools.com/"],
+      ["Scratch — programação", "https://scratch.mit.edu/"]
+    ],
+    lessons: [
+      {
+        title: "1. Componentes do computador",
+        content: `
+          <h3>Hardware e software</h3>
+          <p><b>Hardware:</b> componentes físicos, como teclado, monitor e processador.</p>
+          <p><b>Software:</b> programas e sistemas, como navegadores e editores de texto.</p>
+          <p>O teclado permite introduzir texto. O monitor apresenta informação.</p>
+        `,
+        questions: [
+          {
+            q: "Qual destes é um componente físico?",
+            options: ["Teclado", "Navegador", "Aplicação"],
+            answer: 0
+          }
+        ]
+      },
+      {
+        title: "2. Introdução ao HTML",
+        content: `
+          <h3>O que é HTML?</h3>
+          <p>HTML é uma linguagem de marcação utilizada para estruturar páginas web.</p>
+          <p><b>&lt;h1&gt;</b> cria um título principal.</p>
+          <p><b>&lt;p&gt;</b> cria um parágrafo.</p>
+          <p><b>&lt;a&gt;</b> cria um link.</p>
+          <p><b>&lt;button&gt;</b> cria um botão.</p>
+        `,
+        questions: [
+          {
+            q: "Qual etiqueta HTML cria um parágrafo?",
+            options: ["<h1>", "<p>", "<img>"],
+            answer: 1
+          }
+        ]
+      }
+    ]
+  },
+
+  contabilidade: {
+    name: "Contabilidade",
+    icon: "📊",
+    intro: "Aprende os conceitos básicos de contas e finanças.",
+    resources: [
+      ["Portal do INE Angola", "https://www.ine.gov.ao/"]
+    ],
+    lessons: [
+      {
+        title: "1. Conceitos fundamentais",
+        content: `
+          <h3>O que é a contabilidade?</h3>
+          <p>A contabilidade regista e organiza operações financeiras de uma entidade.</p>
+          <p><b>Ativo:</b> recursos e direitos da entidade.</p>
+          <p><b>Passivo:</b> obrigações e dívidas.</p>
+          <p><b>Capital próprio:</b> corresponde ao ativo menos o passivo.</p>
+          <p>Equação fundamental: Ativo = Passivo + Capital próprio.</p>
+        `,
+        questions: [
+          {
+            q: "Qual é a equação fundamental da contabilidade?",
+            options: [
+              "Ativo = Passivo + Capital próprio",
+              "Ativo = Passivo − Capital próprio",
+              "Passivo = Ativo + Capital próprio"
+            ],
+            answer: 0
+          }
+        ]
+      },
+      {
+        title: "2. Receitas e despesas",
+        content: `
+          <h3>Receitas e despesas</h3>
+          <p>Receitas são valores obtidos através da atividade da entidade.</p>
+          <p>Despesas são gastos associados à sua atividade.</p>
+          <p>Exemplo: uma loja recebe 50 000 Kz e gasta 20 000 Kz.</p>
+          <p>Diferença entre esses valores: 30 000 Kz.</p>
+          <p>Este cálculo simples não substitui o apuramento contabilístico completo.</p>
+        `,
+        questions: [
+          {
+            q: "Uma loja recebe 50 000 Kz e gasta 20 000 Kz. Qual é a diferença?",
+            options: ["20 000 Kz", "30 000 Kz", "70 000 Kz"],
+            answer: 1
+          }
+        ]
+      }
+    ]
+  }
+};
+
+let currentSubject = null;
+let currentLesson = null;
+
+function hidePages() {
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("subjectPage").classList.add("hidden");
+  document.getElementById("lessonPage").classList.add("hidden");
+  document.getElementById("quizPage").classList.add("hidden");
+}
+
+function renderSubjects() {
+  const grid = document.getElementById("subjectGrid");
+  grid.innerHTML = "";
+
+  Object.keys(subjects).forEach(key => {
+    const s = subjects[key];
+    const button = document.createElement("button");
+    button.className = "card";
+    button.dataset.name = s.name.toLowerCase();
+    button.innerHTML =
+      '<span class="icon">' + s.icon + '</span>' + s.name;
+    button.onclick = () => openSubject(key);
+    grid.appendChild(button);
+  });
+}
+
+function filterSubjects() {
+  const value = document.getElementById("search").value.toLowerCase();
+
+  document.querySelectorAll(".card").forEach(card => {
+    card.style.display = card.dataset.name.includes(value) ? "" : "none";
+  });
+}
+
+function openSubject(key) {
+  currentSubject = key;
+  const s = subjects[key];
+
+  hidePages();
+  document.getElementById("subjectPage").classList.remove("hidden");
+  document.getElementById("subjectTitle").textContent = s.icon + " " + s.name;
+  document.getElementById("subjectIntro").textContent = s.intro;
+
+  const list = document.getElementById("lessonList");
+  list.innerHTML = "";
+
+  s.lessons.forEach((lesson, index) => {
+    const button = document.createElement("button");
+    button.className = "lesson";
+    button.textContent = "📘 " + lesson.title;
+    button.onclick = () => openLesson(index);
+    list.appendChild(button);
+  });
+
+  const resources = document.getElementById("resources");
+  resources.innerHTML = "";
+
+  s.resources.forEach(resource => {
+    const link = document.createElement("a");
+    link.href = resource[1];
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = "🌐 " + resource[0];
+    link.style.display = "block";
+    link.style.padding = "10px 0";
+    resources.appendChild(link);
+  });
+
+  window.scrollTo(0, 0);
+}
+
+function openLesson(index) {
+  currentLesson = index;
+  const lesson = subjects[currentSubject].lessons[index];
+
+  hidePages();
+  document.getElementById("lessonPage").classList.remove("hidden");
+  document.getElementById("lessonTitle").textContent = lesson.title;
+  document.getElementById("lessonContent").innerHTML = lesson.content;
+
+  window.scrollTo(0, 0);
+}
+
+function showQuiz() {
+  const lesson = subjects[currentSubject].lessons[currentLesson];
+  const box = document.getElementById("quizContent");
+
+  box.innerHTML = "";
+  document.getElementById("quizResult").textContent = "";
+
+  lesson.questions.forEach((question, qi) => {
+    const div = document.createElement("div");
+    div.className = "question";
+
+    const title = document.createElement("h3");
+    title.textContent = (qi + 1) + ". " + question.q;
+    div.appendChild(title);
+
+    question.options.forEach((option, oi) => {
+      const label = document.createElement("label");
+      const radio = document.createElement("input");
+
+      radio.type = "radio";
+      radio.name = "question" + qi;
+      radio.value = oi;
+
+      label.appendChild(radio);
+      label.appendChild(document.createTextNode(" " + option));
+      div.appendChild(label);
+    });
+
+    box.appendChild(div);
+  });
+
+  hidePages();
+  document.getElementById("quizPage").classList.remove("hidden");
+  window.scrollTo(0, 0);
+}
+
+function checkQuiz() {
+  const lesson = subjects[currentSubject].lessons[currentLesson];
+  let score = 0;
+  let unanswered = 0;
+
+  lesson.questions.forEach((question, qi) => {
+    const selected = document.querySelector(
+      'input[name="question' + qi + '"]:checked'
+    );
+
+    if (!selected) {
+      unanswered++;
+    } else if (Number(selected.value) === question.answer) {
+      score++;
+    }
+  });
+
+  const result = document.getElementById("quizResult");
+
+  if (unanswered > 0) {
+    result.textContent = "Responde a todas as perguntas antes de corrigir.";
+    return;
+  }
+
+  result.textContent =
+    "Resultado: " + score + " de " + lesson.questions.length + " respostas certas. " +
+    (score === lesson.questions.length
+      ? "Excelente! 🎉"
+      : "Continua a estudar e tenta novamente! 💪");
+}
+
+function goHome() {
+  hidePages();
+  document.getElementById("home").classList.remove("hidden");
+  window.scrollTo(0, 0);
+}
+
+function backToSubject() {
+  openSubject(currentSubject);
+}
+
+function backToLesson() {
+  openLesson(currentLesson);
+}
+
+renderSubjects();
+</script>
+
+</body>
+</html>
